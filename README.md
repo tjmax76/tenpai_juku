@@ -1,24 +1,48 @@
-# README
+# テンパイ塾 DB設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## usersテーブル
 
-Things you may want to cover:
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| nickname           | string | null: false |
+| email              | string | null: false |
+| encrypted_password | string | null: false |
 
-* Ruby version
+### Association
 
-* System dependencies
+- has_many :answers
 
-* Configuration
+## questionsテーブル
+| Column              | Type | Options     |
+| ------------------- | ---- | ----------- |
+| correct_answer      | json | null: false |
+| explanation         | text | null: false |
 
-* Database creation
+### Association
 
-* Database initialization
+- has_many :answers
 
-* How to run the test suite
+## answersテーブル
 
-* Services (job queues, cache servers, search engines, etc.)
+| Column   | Type       | Options                        |
+| -------- | ---------- | ------------------------------ |
+| user     | references | null: false, foreign_key: true |
+| question | references | null: false, foreign_key: true |
+| answer   | json       | null: false                    |
 
-* Deployment instructions
+### Association
 
-* ...
+- belongs_to :user
+- belongs_to :question
+- has_one :score
+
+## scoresテーブル
+
+| Column | Type       | Options                        |
+| ------ | ---------- | ------------------------------ |
+| answer | references | null: false, foreign_key: true |
+| score  | float      | null: false                    |
+
+### Association
+
+belongs_to :answer
